@@ -72,6 +72,26 @@ app.post("/saveRecipe", async (req, res) => {
     }
 });
 
+// route to delete (unbookmark) recipes
+app.delete("/deleteRecipe/:spoonacularId", async (req, res) => {
+    try {
+        const id = Number(req.params.spoonacularId);
+        if (isNaN(id)) {
+            return res.status(400).json({ error: "Invalid spoonacularId " });
+        }
+
+        const deletedRecipe = await Recipe.findOneAndDelete({ spoonacularId: id });
+
+        if (!deletedRecipe) {
+            return res.status(400).json({ error: "Recipe not found" });
+        }
+
+        res.json({message: "Recipe deleted successfully", deletedRecipe });
+    } catch (err) {
+        console.error("Error deleting recipe:", err);
+        res.status(500).json({ error: "Failed to delete recipe" });
+    }
+});
 
 app.listen(5000, () => console.log('Server running on port 5000'));
 
