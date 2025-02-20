@@ -127,6 +127,84 @@ app.post('/register', async (req, res) => {
     }
 });
 
+app.get('/profiles/:id', async (req, res) => {
+    try {
+      // Use .populate('savedRecipes') to replace IDs in savedRecipes
+      // with the actual Recipe documents
+      const userProfile = await Profile.findById(req.params.id)
+        .populate('savedRecipes', 'title spoonacularId'); // or .populate('savedRecipes', 'title spoonacularId')
+  
+      // if user not found
+      if (!userProfile) {
+        return res.status(404).json({ error: 'Profile not found' });
+      }
+  
+      // Return the entire user profile, including saved recipe info
+      res.json(userProfile);
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+      res.status(500).json({ error: 'Failed to fetch profile' });
+    }
+  });
 
-app.listen(5000, () => console.log('Server running on port 5000'));
+// Update a user's ingredients array
+app.put('/profiles/:id/ingredients', async (req, res) => {
+    try {
+      const userId = req.params.id;
+      const { ingredients } = req.body;  // should be an array of strings
+  
+      // Find the user by ID
+      const userProfile = await Profile.findById(userId);
+      if (!userProfile) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      // Set or replace the user's ingredients
+      userProfile.ingredients = ingredients;
+      await userProfile.save();
+  
+      res.json({ 
+        message: 'Ingredients updated successfully', 
+        profile: userProfile 
+      });
+    } catch (error) {
+      console.error('Error updating ingredients:', error);
+      res.status(500).json({ error: 'Failed to update ingredients' });
+    }
+  });
+
+// Add a saved recipe to the user's profile
+app.post('/profiles/:id/savedRecipes', async (req, res) => {
+    try {
+      const userId = req.params.id;
+      const { recipeId } = req.body; // the _id of a Recipe in the DB
+  
+      // Find the user
+      const userProfile = await Profile.findById(userId);
+      if (!userProfile) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      // Check if the recipe is already saved
+      if (userProfile.savedRecipes.includes(recipeId)) {
+        return res.status(400).json({ error: 'Recipe is already saved' });
+      }
+  
+      // Push the recipe into the savedRecipes array
+      userProfile.savedRecipes.push(recipeId);
+      await userProfile.save();
+  
+      res.json({ 
+        message: 'Recipe saved successfully',
+        profile: userProfile
+      });
+    } catch (error) {
+      console.error('Error adding saved recipe:', error);
+      res.status(500).json({ error: 'Failed to add saved recipe' });
+    }
+  });
+
+  
+  
+app.listen(5001, () => console.log('Server running on port 5001'));
 
