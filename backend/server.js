@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const axios = require('axios'); 
 const Recipe = require("./models/recipe-model");
+const Profile = require("./models/profile-model"); 
 require('dotenv').config();
 
 const SPOONACULAR_API_KEY = process.env.SPOONACULAR_API_KEY;
@@ -41,6 +42,8 @@ app.get("/searchRecipes", async (req, res) => {
         res.status(500).json({ error: "Failed to fetch recipes" });
     }
 });
+
+
 
 // route to save (bookmark) recipe
 app.post("/saveRecipe", async (req, res) => {
@@ -92,6 +95,38 @@ app.delete("/deleteRecipe/:spoonacularId", async (req, res) => {
         res.status(500).json({ error: "Failed to delete recipe" });
     }
 });
+
+//create profile
+app.post('/register', async (req, res) => {
+    try {
+        const { email, username, password } = req.body;
+        
+        if (!email || !username || !password) {
+            return res.status(400).json({ error: "Missing fields" });
+        }
+
+        //check if user/email already exists
+        const existingUser = await Profile.findOne({ $or: [{ email }, { username }] });
+        if (existingUser) {
+            return res.status(400).json({ error: "Email or username is already taken" });
+        }
+        
+
+
+        const newProfile = new Profile({
+            email,
+            username,
+            password 
+        });
+
+        await newProfile.save();
+        return res.status(201).json({ message: "User registered successfully" });
+    } catch (error) {
+        console.error("Error registering user:", error);
+        return res.status(500).json({ error: "Failed to register user" });
+    }
+});
+
 
 app.listen(5000, () => console.log('Server running on port 5000'));
 
