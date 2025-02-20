@@ -133,7 +133,7 @@ app.get('/profiles/:id', async (req, res) => {
       // with the actual Recipe documents
       const userProfile = await Profile.findById(req.params.id)
         .populate('savedRecipes', 'title spoonacularId'); // or .populate('savedRecipes', 'title spoonacularId')
-  
+
       // if user not found
       if (!userProfile) {
         return res.status(404).json({ error: 'Profile not found' });
