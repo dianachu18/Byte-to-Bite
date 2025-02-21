@@ -45,35 +45,56 @@ app.get("/searchRecipes", async (req, res) => {
 
 
 
-// route to save (bookmark) recipe
+//route to save (bookmark) recipe
 app.post("/saveRecipe", async (req, res) => {
-    const { id, title } = req.body;
+  const { id } = req.body;
 
-    // Check if id is valid
-    if (!id) {
-        return res.status(400).json({ error: "Invalid or missing Recipe ID" });
-    }
+  if (!id) {
+      return res.status(400).json({ error: "Recipe ID is required" });
+  }
 
-    try {
-        // Prevent bookmarking a saved recipe
-        const existingRecipe = await Recipe.findOne({ spoonacularId: id });
+  try {
+      // Check if the recipe already exists in MongoDB
+      const existingRecipe = await Recipe.findOne({ spoonacularId: id });
 
-        if (existingRecipe) {
-            return res.status(400).json({ error: "Recipe is already saved" });
-        }
+      if (existingRecipe) {
+          return res.status(200).json({ message: "Recipe already exists", recipe: existingRecipe });
+      }
 
-        const newRecipe = new Recipe({
-            spoonacularId: id,
-            title: title
-        });
+      // If not found, fetch from Spoonacular API
+      const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/information`, {
+          params: { apiKey: process.env.SPOONACULAR_API_KEY }
+      });
 
-        await newRecipe.save();
-        res.status(201).json({ message: "Recipe saved successfully" });
-    } catch (error) {
-        console.error("Error saving recipe:", error);
-        res.status(500).json({ error: "Failed to save recipe" });
-    }
+      const recipeData = response.data;
+
+      //create a new recipe object with all details
+      const newRecipe = new Recipe({
+          spoonacularId: recipeData.id,
+          title: recipeData.title,
+          image: recipeData.image,
+          usedIngredientCount: recipeData.extendedIngredients.length,
+          missedIngredientCount: 0,  
+          usedIngredients: recipeData.extendedIngredients.map(ing => ({
+              name: ing.name,
+              amount: ing.amount,
+              unit: ing.unit
+          })),
+          missedIngredients: [],  
+          unusedIngredients: [],  
+          likes: recipeData.aggregateLikes
+      });
+
+      await newRecipe.save();
+      res.status(201).json({ message: "Recipe saved successfully", recipe: newRecipe });
+
+  } catch (error) {
+      console.error("Error fetching or saving recipe:", error.response ? error.response.data : error.message);
+      res.status(500).json({ error: "Failed to fetch or save recipe" });
+  }
 });
+
+
 
 // route to delete (unbookmark) recipes
 app.delete("/deleteRecipe/:spoonacularId", async (req, res) => {
@@ -173,24 +194,24 @@ app.put('/profiles/:id/ingredients', async (req, res) => {
     }
   });
 
-// Add a saved recipe to the user's profile
+//add a saved recipe to the user's profile
 app.post('/profiles/:id/savedRecipes', async (req, res) => {
     try {
       const userId = req.params.id;
       const { recipeId } = req.body; // the _id of a Recipe in the DB
   
-      // Find the user
+      //find the user
       const userProfile = await Profile.findById(userId);
       if (!userProfile) {
         return res.status(404).json({ error: 'User not found' });
       }
   
-      // Check if the recipe is already saved
+      // if the recipe is already saved
       if (userProfile.savedRecipes.includes(recipeId)) {
         return res.status(400).json({ error: 'Recipe is already saved' });
       }
   
-      // Push the recipe into the savedRecipes array
+      
       userProfile.savedRecipes.push(recipeId);
       await userProfile.save();
   
@@ -204,7 +225,30 @@ app.post('/profiles/:id/savedRecipes', async (req, res) => {
     }
   });
 
-  
+  app.post('/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ error: "Email and password are required" });
+        }
+
+        const user = await Profile.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ error: "User not found" });
+        }
+
+        if (password !== user.password) {  
+            return res.status(400).json({ error: "Invalid password" });
+        }
+
+        res.json({ message: "Login successful",  user: { id: user._id, username: user.username, email: user.email } });
+    } catch (error) {
+        console.error("Login error:", error);
+        res.status(500).json({ error: "Failed to log in" });
+    }
+});
+
   
 app.listen(5000, () => console.log('Server running on port 5000'));
 
