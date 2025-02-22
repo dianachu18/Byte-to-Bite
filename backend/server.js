@@ -43,6 +43,25 @@ app.get("/searchRecipes", async (req, res) => {
     }
 });
 
+// route to get recipe information (for dietary restrictions and instructions)
+app.get("/getRecipeInformation/:recipeId", async (req, res) => {
+    try {
+        const response = await axios.get(
+            `https://api.spoonacular.com/recipes/${req.params.recipeId}/information`,
+            {
+                params: {includeNutrition: true,
+                         apiKey: SPOONACULAR_API_KEY
+                        }
+            }
+        );
+
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error:', error.response ? error.response.data : error.message);
+        res.status(500).json({ error: "Failed to fetch recipe information" });
+    }
+    
+})
 
 
 //route to save (bookmark) recipe
@@ -95,8 +114,7 @@ app.post("/saveRecipe", async (req, res) => {
 });
 
 
-
-// route to delete (unbookmark) recipes
+// route to delete recipes
 app.delete("/deleteRecipe/:spoonacularId", async (req, res) => {
     try {
         const id = Number(req.params.spoonacularId);
@@ -224,6 +242,36 @@ app.post('/profiles/:id/savedRecipes', async (req, res) => {
       res.status(500).json({ error: 'Failed to add saved recipe' });
     }
   });
+
+  // remove or unbookmark a user's saved recipe.
+app.post('/profiles/:id/unsaveRecipe', async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const { recipeId } = req.body; // the _id of a Recipe in the DB
+
+        // find user
+        const userProfile = await Profile.findById(userId);
+        if (!userProfile) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // if the recipe is not bookmarked
+        if (!userProfile.savedRecipes.includes(recipeId)) {
+            return res.status(400).json({ error: 'Recipe is not saved' });
+        }
+
+        userProfile.savedRecipes.pull(recipeId);
+        await userProfile.save();
+  
+        res.json({
+            message: 'Recipe unsaved successfully',
+            profile: userProfile
+        });
+    } catch (error) {
+        console.error('Error unsaving recipe:', error);
+        res.status(500).json({ error: 'Failed to unsave recipe' });
+    }
+});
 
   app.post('/login', async (req, res) => {
     try {
