@@ -6,7 +6,7 @@ Perform the following actions on your terminal:
 
 ### Clone the repository
 
-`[git clone https://github.com/tanisha-ag/Byte-to-Bite]`
+`git clone https://github.com/tanisha-ag/Byte-to-Bite`
 
 Alternatively, download zip directly through GitHub and extract it locally.
 
