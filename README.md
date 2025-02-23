@@ -19,7 +19,7 @@ Alternatively, download zip directly through GitHub and extract it locally.
 `npm i` or `npm install`
 
 
-### start the Node.js server
+### Start the Node.js server
 
 `cd backend`
 
@@ -32,4 +32,4 @@ Create a .env file in the backend folder. Inside, add your [spoonacular API](htt
 
 Afterwards, to run the backend:
 
-`node Server.js`
+`node server.js`
