@@ -80,7 +80,6 @@ app.get('/recipes/:id', async (req, res) => {
   }
 });
 
-//route to save (bookmark) recipe
 app.post("/saveRecipe", async (req, res) => {
   const { id } = req.body;
 
@@ -89,35 +88,38 @@ app.post("/saveRecipe", async (req, res) => {
   }
 
   try {
-      // Check if the recipe already exists in MongoDB
       const existingRecipe = await Recipe.findOne({ spoonacularId: id });
-
       if (existingRecipe) {
           return res.status(200).json({ message: "Recipe already exists", recipe: existingRecipe });
       }
 
-      // If not found, fetch from Spoonacular API
       const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/information`, {
           params: { apiKey: process.env.SPOONACULAR_API_KEY }
       });
 
       const recipeData = response.data;
 
-      //create a new recipe object with all details
       const newRecipe = new Recipe({
           spoonacularId: recipeData.id,
           title: recipeData.title,
           image: recipeData.image,
-          usedIngredientCount: recipeData.extendedIngredients.length,
-          missedIngredientCount: 0,  
-          usedIngredients: recipeData.extendedIngredients.map(ing => ({
+          ingredients: recipeData.extendedIngredients.map(ing => ({
               name: ing.name,
               amount: ing.amount,
               unit: ing.unit
           })),
-          missedIngredients: [],  
-          unusedIngredients: [],  
-          likes: recipeData.aggregateLikes
+          likes: recipeData.aggregateLikes,
+
+          //store diet information
+          diets: recipeData.diets || [],
+
+          //store recipe instructions
+          instructions: recipeData.analyzedInstructions.length > 0
+              ? recipeData.analyzedInstructions[0].steps.map(step => step.step)
+              : ["No instructions available"],
+
+          //the front end will add reviews to this array
+          reviews: []
       });
 
       await newRecipe.save();
@@ -129,6 +131,38 @@ app.post("/saveRecipe", async (req, res) => {
   }
 });
 
+//route to review a recipe
+app.post("/recipes/:id/review", async (req, res) => {
+  try {
+      const { userId, rating, comment } = req.body;
+      const recipeId = req.params.id;
+
+      if (!userId || !rating || rating < 1 || rating > 5) {
+          return res.status(400).json({ error: "Valid userId and rating (1-5) required" });
+      }
+
+      const recipe = await Recipe.findById(recipeId);
+      if (!recipe) {
+          return res.status(404).json({ error: "Recipe not found" });
+      }
+
+      //add a new review
+      recipe.reviews.push({
+          userId,
+          rating,
+          comment: comment || "", //comment on the review is optional
+          date: new Date()
+      });
+
+      await recipe.save();
+      res.json({ message: "Review added successfully", recipe });
+
+  } 
+  catch (error) {
+      console.error("Error adding review:", error);
+      res.status(500).json({ error: "Failed to add review" });
+  }
+});
 
 // route to delete recipes
 app.delete("/deleteRecipe/:spoonacularId", async (req, res) => {
@@ -187,7 +221,7 @@ app.get('/profiles/:id', async (req, res) => {
       // Use .populate('savedRecipes') to replace IDs in savedRecipes
       // with the actual Recipe documents
       const userProfile = await Profile.findById(req.params.id)
-        .populate('savedRecipes', 'title spoonacularId'); // or .populate('savedRecipes', 'title spoonacularId')
+        .populate('savedRecipes', 'title spoonacularId'); 
 
       // if user not found
       if (!userProfile) {
@@ -313,6 +347,6 @@ app.post('/profiles/:id/unsaveRecipe', async (req, res) => {
     }
 });
 
-  
+
 app.listen(5000, () => console.log('Server running on port 5000'));
 
