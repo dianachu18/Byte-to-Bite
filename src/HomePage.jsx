@@ -1,5 +1,6 @@
 // HomePage.jsx
 import { CardList } from './CardList';
+import InputTag from './InputTag';
 
 export function HomePage() {
   return (
@@ -11,7 +12,8 @@ export function HomePage() {
       </div>
       <div className="login-body">
         <h1 className="byte-to-bite-logo">Byte-to-Bite</h1>
-        <input type="text" placeholder="Search for recipe..." className="login-search" />
+        {/* <input type="text" placeholder="Search for recipe..." className="login-search" /> */}
+        <InputTag />
         <span className="search-button">
           <img src={"./src/assets/icons8-magnifying-glass-50.png"} />
         </span>
