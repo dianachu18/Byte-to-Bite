@@ -21,7 +21,7 @@ const InputTag = () => {
 
   // Method to add tag into Array
   const handleAddition = (tag) => {
-    let searchUrl = "http://localhost:5000/searchRecipes?ingredients=";
+    let searchUrl = "http://localhost:5001/searchRecipes?ingredients=";
     let newUrl;
 
     setTags([...tags, tag]);

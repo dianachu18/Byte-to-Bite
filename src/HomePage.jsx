@@ -1,8 +1,18 @@
 // HomePage.jsx
+import React, { useState } from "react";
 import { CardList } from './CardList';
 import InputTag from './InputTag';
+import Filters from './Filters'; 
 
 export function HomePage() {
+
+  const [selectedFilters, setSelectedFilters] = useState([]);
+
+  const handleFilterChange = (filters) => {
+    setSelectedFilters(filters);
+    console.log(selectedFilters);
+  };
+
   return (
     <>
       <div className="upper-space">
@@ -17,6 +27,9 @@ export function HomePage() {
         <span className="search-button">
           <img src={"./src/assets/icons8-magnifying-glass-50.png"} />
         </span>
+
+        <Filters onFilterChange={handleFilterChange} />
+
         <div>
           <CardList />
         </div>

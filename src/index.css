@@ -184,3 +184,39 @@ button:hover {
   border-radius: 15px;
   padding: 6px;
 }
+
+.filters {
+  margin-top: 100px;
+  width: 200px;
+  padding: 10px 20px;
+  background-color: #242424;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 2px solid #93827f;
+}
+
+.filters label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  color:  #93827f;
+  cursor: pointer;
+  font-family: cursive;
+}
+
+.filters input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color:  #93827f; 
+}
+
+.filters h3 {
+  color: #93827f;
+  font-size: 22px;
+  font-weight: bold;
+  font-family: cursive;
+  text-decoration: underline;
+}
