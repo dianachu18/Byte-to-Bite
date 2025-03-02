@@ -26,6 +26,78 @@ const recipes = [
     dietary: ["vegan", "gluten-free"],
     rating: 3,
   },
+  {
+    id: 4,
+    name: "Vegetable Stir Fry",
+    image: "https://via.placeholder.com/150",
+    description: "A healthy and quick stir fry with a variety of fresh vegetables and soy sauce.",
+    dietary: ["vegan", "gluten-free"],
+    rating: 3,
+  },
+  {
+    id: 5,
+    name: "Vegetable Stir Fry",
+    image: "https://via.placeholder.com/150",
+    description: "A healthy and quick stir fry with a variety of fresh vegetables and soy sauce.",
+    dietary: ["vegan", "gluten-free"],
+    rating: 3,
+  },
+  {
+    id: 6,
+    name: "Vegetable Stir Fry",
+    image: "https://via.placeholder.com/150",
+    description: "A healthy and quick stir fry with a variety of fresh vegetables and soy sauce.",
+    dietary: ["vegan", "gluten-free"],
+    rating: 3,
+  },
+  {
+    id: 7,
+    name: "Vegetable Stir Fry",
+    image: "https://via.placeholder.com/150",
+    description: "A healthy and quick stir fry with a variety of fresh vegetables and soy sauce.",
+    dietary: ["vegan", "gluten-free"],
+    rating: 3,
+  },
+  {
+    id: 8,
+    name: "Vegetable Stir Fry",
+    image: "https://via.placeholder.com/150",
+    description: "A healthy and quick stir fry with a variety of fresh vegetables and soy sauce.",
+    dietary: ["vegan", "gluten-free"],
+    rating: 3,
+  },
+  {
+    id: 9,
+    name: "Vegetable Stir Fry",
+    image: "https://via.placeholder.com/150",
+    description: "A healthy and quick stir fry with a variety of fresh vegetables and soy sauce.",
+    dietary: ["vegan", "gluten-free"],
+    rating: 3,
+  },
+  {
+    id: 10,
+    name: "Vegetable Stir Fry",
+    image: "https://via.placeholder.com/150",
+    description: "A healthy and quick stir fry with a variety of fresh vegetables and soy sauce.",
+    dietary: ["vegan", "gluten-free"],
+    rating: 3,
+  },
+  {
+    id: 11,
+    name: "Vegetable Stir Fry",
+    image: "https://via.placeholder.com/150",
+    description: "A healthy and quick stir fry with a variety of fresh vegetables and soy sauce.",
+    dietary: ["vegan", "gluten-free"],
+    rating: 3,
+  },
+  {
+    id: 12,
+    name: "Vegetable Stir Fry",
+    image: "https://via.placeholder.com/150",
+    description: "A healthy and quick stir fry with a variety of fresh vegetables and soy sauce.",
+    dietary: ["vegan", "gluten-free"],
+    rating: 3,
+  }
 ];
 
 export function MappedRecipe(){
@@ -73,14 +145,16 @@ export function MappedRecipe(){
             />
             <div className="filter-group">
               <h3>Dietary</h3>
-              {['gluten-free', 'vegan'].map((diet) => (
+              {['gluten-free', 'vegan', 'Gluten Free', 'Ketogenic', 
+              'Lacto-Vegetarian', 'Ovo-Vegetarian', 'Pescetarian', 'Vegan', 
+              'Paleo', 'Primal', 'Low FODMAP', 'Whole30', 'Dairy Free'].map((diet) => (
                 <label key={diet}>
                   <input
                     type="checkbox"
                     checked={selectedDietary.includes(diet)}
                     onChange={() => handleDietaryChange(diet)}
                   />
-                  {diet}
+                  <span>{diet}</span>
                 </label>
               ))}
             </div>

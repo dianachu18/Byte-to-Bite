@@ -1,12 +1,11 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { HomePage } from './HomePage';
 import { MappedRecipe } from './MappedRecipe';
 import { RecipeDisplay } from './RecipeDisplay';
 import { Login }  from './Login';
 import { SignUp } from './SignUp';
 import { UserProfile } from './UserProfile'
-
+import { HomePage } from './HomePage';
 
 function App() {
   return (

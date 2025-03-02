@@ -32,6 +32,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #2F2F2F !important;
 }
 /* 
 h1 {
@@ -39,7 +40,7 @@ h1 {
   line-height: 1.1;
 } */
 
-button {
+/* button {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -52,13 +53,13 @@ button {
 }
 button:hover {
   border-color: #646cff;
-}
+} */
 /* button:focus, */
 /* button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 } */
 
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
@@ -69,11 +70,11 @@ button:hover {
   button {
     background-color: #f9f9f9;
   }
-}
+} */
 
 .upper-space{
   margin-left: 500px;
-  margin-top: 0;
+  margin-top: 10px;
 } 
 
 .login-body{
@@ -82,22 +83,25 @@ button:hover {
 }
 
 .login-button{
-  /* position: absolute; */
-  border-radius: 15px;
-  border: 1px solid transparent;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #92b4a7;
-  cursor: pointer;
-  transition: border-color 0.25s;
-  margin-left: 84%;
-  margin-top: 0;
-  color: #f3f9d2;
-  text-align: left;
-  width: 120px;
-  height: 50px;
-  padding-top: 13px;
+  border-radius: 8px !important;
+  border: 1px solid transparent !important;
+  padding: 15px 20px 15px 15px !important;
+  font-size: 1.1em !important;
+  font-weight: 500 !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  background-color: #92b4a7 !important;
+  cursor: pointer !important;
+  transition: border-color 0.25s !important;
+  margin-left: 1250px !important;
+  margin-top: 130px !important;
+  text-align: left !important;
+  width: 130px !important;
+  color: #f3f9d2 !important;
+}
+
+.login-button:hover {
+  background-color: #7a998f !important;
+  transition: 0.7s !important;
 }
 
 .byte-to-bite-logo{
@@ -108,8 +112,9 @@ button:hover {
 }
 
 .login-search{
-  margin-left: 30%;
-  padding: 25px 210px;
+  max-width: 50%;
+  margin-left: 20%;
+  padding: 25px 50px;
   border-radius: 15px;
   background-color: #f3f9d2;
   color: #bdc4a7;
@@ -117,12 +122,11 @@ button:hover {
 }
 
 .user-pic{
-  float:right;
   width: 30px;
   height: 30px;
   position: absolute;
   top: 43px;
-  right: 89px;
+  right: 100px;
 }
 
 .card {
@@ -178,9 +182,13 @@ button:hover {
 
 .search-button{
   position: absolute;
-  left: 939px;
-  top: 248px;
+  left: 1073px;
+  top: 274px;
   background-color: #92b4a7;
   border-radius: 15px;
   padding: 6px;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  width: 65px;
 }
