@@ -16,26 +16,37 @@ const InputTag = ({ onSearchResults }) => {
 
   // Method to delete tag from Array
   const handleDelete = (i) => {
+    let searchUrl = "http://localhost:5001/searchRecipes?ingredients=";
+
     setTags(tags.filter((tag, index) => index !== i));
+
+    if(tags.length != 0) {
+      for(let j = 0; j < tags.length; j++) {
+        if(j !== i) {
+          searchUrl = searchUrl + tags[j].text + ",";
+        }
+      }
+    }
+    
+    searchUrl = searchUrl.slice(0, searchUrl.length - 1);
+    searchReq(searchUrl);
   };
 
   // Method to add tag into Array
   const handleAddition = (tag) => {
     let searchUrl = "http://localhost:5001/searchRecipes?ingredients=";
-    let newUrl;
 
     setTags([...tags, tag]);
 
     if(tags.length != 0) {
       for(let i = 0; i < tags.length; i++) {
-        newUrl = searchUrl + tags[i].text + ",";
+        searchUrl = searchUrl + tags[i].text + ",";
       }
     }
-    else {
-      newUrl = searchUrl;
-    }
-    newUrl = newUrl + tag.text;
-    searchReq(newUrl);
+
+    searchUrl = searchUrl + tag.text;
+    //console.log(searchUrl);
+    searchReq(searchUrl);
   };
 
   //fetches using all tags
