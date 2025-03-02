@@ -332,7 +332,7 @@ const findBestRecipes = async (userIngredients) => {
             $sort: { match_count: -1, missing_count: 1 }
         },
         {
-            $limit: 10 // limit array to 10 recipes
+            $limit: 12 // limit array to 12 recipes
         }
     ]);
 
