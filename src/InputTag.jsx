@@ -21,8 +21,30 @@ const InputTag = () => {
 
   // Method to add tag into Array
   const handleAddition = (tag) => {
+    let searchUrl = "http://localhost:5000/searchRecipes?ingredients=";
+    let newUrl;
+
     setTags([...tags, tag]);
+
+    if(tags.length != 0) {
+      for(let i = 0; i < tags.length; i++) {
+        newUrl = searchUrl + tags[i].text + ",";
+      }
+    }
+    else {
+      newUrl = searchUrl;
+    }
+    newUrl = newUrl + tag.text;
+    searchReq(newUrl);
   };
+
+  //fetches using all tags
+  async function searchReq(url) {
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log(data);
+  };
+
   return (
     <div id="tags">
       <ReactTags
