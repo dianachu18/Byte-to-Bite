@@ -6,7 +6,7 @@ export function HomePage() {
     <>
       <div className="upper-space">
         <button className="login-button">Sign In
-          <img src={'./src/assets/icons8-user-50.png'} className="user-pic" />
+          <span> <img src={'./src/assets/icons8-user-50.png'} className="user-pic" /> </span>
         </button>
       </div>
       <div className="login-body">
