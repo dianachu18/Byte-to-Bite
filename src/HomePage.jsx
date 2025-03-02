@@ -7,10 +7,13 @@ import Filters from './Filters';
 export function HomePage() {
 
   const [selectedFilters, setSelectedFilters] = useState([]);
+  const [first10, setFirst10] = useState([]);
 
   const handleFilterChange = (filters) => {
     setSelectedFilters(filters);
-    console.log(selectedFilters);
+  };
+  const handleSearchResults = (data) => {
+    setFirst10(data);
   };
 
   return (
@@ -23,15 +26,17 @@ export function HomePage() {
       <div className="login-body">
         <h1 className="byte-to-bite-logo">Byte-to-Bite</h1>
         {/* <input type="text" placeholder="Search for recipe..." className="login-search" /> */}
-        <InputTag />
+
+        <InputTag onSearchResults={handleSearchResults} />
+
         <span className="search-button">
           <img src={"./src/assets/icons8-magnifying-glass-50.png"} />
         </span>
 
-        <Filters onFilterChange={handleFilterChange} />
-
-        <div>
-          <CardList />
+        <div className="recipe-wrapper">
+          <Filters onFilterChange={handleFilterChange} />
+          {first10.length > 0 && <CardList data={first10} />}
+          {/* <CardList /> */}
         </div>
       </div>
     </>

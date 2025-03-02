@@ -10,7 +10,7 @@ const KeyCodes = {
 
 const delimiter = [KeyCodes.comma, KeyCodes.enter];
 
-const InputTag = () => {
+const InputTag = ({ onSearchResults }) => {
   const [tags, setTags] = React.useState([]);
   const [suggestions, setSuggestions] = React.useState([]);
 
@@ -44,6 +44,7 @@ const InputTag = () => {
       const data = await response.json();
       const first10 = data.slice(0, 10);
       console.log(first10);
+      onSearchResults(first10);
   };
 
   return (
