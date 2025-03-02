@@ -23,11 +23,10 @@ Alternatively, download zip directly through GitHub and extract it locally.
 
 `cd backend`
 
-Create a .env file in the backend folder. Inside, add your [spoonacular API](https://spoonacular.com/food-api) key and the MongoDB URI as follows:
+Create a .env file in the backend folder. Inside, add your MongoDB URI as follows:
 
    ```ini
    MONGO_URI="YOUR_URI_HERE"
-   SPOONACULAR_API_KEY="YOUR_API_KEY_HERE"
 ```
 
 Afterwards, to run the backend:
