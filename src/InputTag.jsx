@@ -42,7 +42,8 @@ const InputTag = () => {
   async function searchReq(url) {
       const response = await fetch(url);
       const data = await response.json();
-      console.log(data);
+      const first10 = data.slice(0, 10);
+      console.log(first10);
   };
 
   return (
