@@ -3,8 +3,8 @@ import "./SignUp.css"
 export function SignUp() {
     return (
       <div className="signup-container">
-        <h2>Sign Up</h2>
         <form className="signup-form">
+          <h1>Sign Up</h1>
           <label>Email</label>
           <input type="email" placeholder="Enter your email" required />
   
