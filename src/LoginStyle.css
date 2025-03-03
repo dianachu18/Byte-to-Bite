@@ -1,17 +1,11 @@
-/* General styling */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
+  height: 100%;
+  margin: auto;
 }
 
-/* Container */
 .login-container {
-  background: white;
+  background: #d9d0b4;
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -19,10 +13,16 @@ body {
   text-align: center;
 }
 
-/* Form styling */
-.login-form h2 {
+.login-form h1 {
   margin-bottom: 1rem;
-  color: #333;
+  text-align: center;
+  font-family: serif;
+  color: #404040;
+}
+
+.login-form {
+  margin: 0;
+  padding: 0;
 }
 
 .input-group {
@@ -34,6 +34,7 @@ body {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
+  color: #404040;
 }
 
 .input-group input {
@@ -44,44 +45,49 @@ body {
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1rem;
+  background-color: #8c8c8c;
+  color: #dbdbdb
 }
 
-/* Buttons */
 .login-button {
-  width: 100%; /* Ensures the button takes full width */
-  max-width: 350px; /* Keeps it reasonable */
-  display: block; /* Prevents inline behavior */
-  margin: 10px auto;
-  padding: 10px;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  margin-top: 10px;
-  text-align: center; /* Ensures text inside is centered */
-}
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #404040;
+    color: #dbdbdb;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+  }
 
 .login-button:hover {
-  background: #0056b3;
+  scale: 1.05;
+  background-color: #5e606c;
 }
 
-/* Sign-up message */
+span {
+  display: block;
+  text-align: center;
+  margin: 10px 0;
+  color: #404040;
+}
+
 .signup-message {
   margin-top: 15px;
   font-size: 0.9rem;
-  color: #555;
+  color: #404040;
 }
 
 .signup-button {
   background: none;
   border: none;
-  color: #007bff;
+  color: #404040;
+  background-color: #d9d0b4;
   font-size: 0.9rem;
   cursor: pointer;
 }
 
 .signup-button:hover {
   text-decoration: underline;
+  background-color: #dbdbdb;
 }

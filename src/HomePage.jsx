@@ -7,7 +7,7 @@ export function HomePage() {
     <>
       <div className="home-page">
         <div>
-          <button className="login-button">Sign In
+          <button className="login-button-hp">Sign In
             <img src={'./src/assets/icons8-user-50.png'} className="user-pic" />
           </button>
         </div>
