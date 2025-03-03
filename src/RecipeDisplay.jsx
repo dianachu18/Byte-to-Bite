@@ -3,7 +3,7 @@ import "./RecipeDisplayStyle.css";
 import { FaStar, FaRegStar, FaBookmark, FaRegBookmark } from "react-icons/fa";
 
 const recipe = {
-  image: "https://via.placeholder.com/600",
+  image: "https://www.indianhealthyrecipes.com/wp-content/uploads/2023/05/red-sauce-pasta-recipe.jpg",
   name: "Delicious Pasta",
   rating: 4,
   ingredients: ["Pasta", "Tomato Sauce", "Garlic", "Basil", "Parmesan"],

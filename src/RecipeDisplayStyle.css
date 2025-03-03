@@ -1,16 +1,30 @@
 .recipe-container {
     text-align: center;
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    width: 1400px; 
+    margin: 0 auto;
+    overflow-y: auto;
   }
   
   .recipe-image {
-    width: 100%;
-    height: auto;
+    margin-top: 450px;
+    margin-left: 450px;
+    width: 500px;
+    height: 500px;
+    align-content: center;
+    justify-content: center; 
+    object-fit: cover;
     border-radius: 10px;
+    background-color: #cac19e; 
   }
   
   .recipe-name {
     font-size: 2rem;
     margin: 10px 0;
+    color: #F5F5DC;
   }
   
   .recipe-rating .star {
@@ -23,22 +37,37 @@
     text-align: left;
     padding: 10px;
     list-style-position: inside;
+    color: #FFFAF3;
   }
   
   .bookmark-btn {
-    background: none;
+    background-color: transparent;
     border: none;
     font-size: 1rem;
     cursor: pointer;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 5px;
     margin: 10px auto;
     padding: 5px;
-    color: #333;
+    color: #93827f;
+    outline: none;
   }
   
   .bookmark-btn:hover {
-    color: #ff4500;
+    color: #93827f;
+    background-color: transparent;
+  }
+
+.bookmark-btn:focus, 
+.bookmark-btn:active {
+    outline: none; 
+    background-color: transparent; 
+}
+
+  h3 {
+    color: #FFEFD5;
+    text-align: left;
   }
   
