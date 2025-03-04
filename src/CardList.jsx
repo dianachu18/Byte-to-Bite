@@ -1,35 +1,95 @@
 import { useState, useEffect } from 'react';
 import { Card } from './Card';
 
-export function CardList() {
-  const [data, setData] = useState([]);
+// export function CardList() {
+//   const [data, setData] = useState([]);
 
-  async function getData() {
-    let response = await fetch('./data.json');
-    let info = await response.json();
-    return await setData(info);
-  }
+//   async function getData() {
+//     let response = await fetch('./data.json');
+//     let info = await response.json();
+//     return await setData(info);
+//   }
 
-  useEffect(() => {
-    getData();
-  }, []);
+//   useEffect(() => {
+//     getData();
+//   }, []);
 
-  console.log(data);
+//   console.log(data);
 
+//   return (
+//     <div className="list">
+//       {
+//         data &&
+//         data.length > 0 &&
+//         data.map((item, index) =>
+//           <Card 
+//           title={item.title} 
+//           text={item.text}
+//           linkTitle={item.linkTitle}
+//           key={index}
+//           />
+//         )
+//       }
+//     </div>
+//   );
+// }
+
+export function CardList({ data }) {
+  console.log("inside data list: ", data);
   return (
+
     <div className="list">
-      {
-        data &&
-        data.length > 0 &&
-        data.map((item, index) =>
-          <Card 
-          title={item.title} 
-          text={item.text}
-          linkTitle={item.linkTitle}
-          key={index}
-          />
-        )
-      }
-    </div>
+       {
+         data &&
+         data.length > 0 &&
+         data.map((item, index) =>
+           <Card 
+           title={item.title} 
+           text={item.text}
+           linkTitle={item.image}
+           key={index}
+           />
+         )
+       }
+     </div>
   );
 }
+
+export default CardList;
+
+
+// import { useState, useEffect } from 'react';
+// import { Card } from './Card';
+
+// export function CardList() {
+//   const [data, setData] = useState([]);
+
+//   async function getData() {
+//     let response = await fetch('./data.json');
+//     let info = await response.json();
+//     return await setData(info);
+//   }
+
+//   useEffect(() => {
+//     getData();
+//   }, []);
+
+//   console.log(data);
+
+//   return (
+//     <div className="list">
+//       {
+//         data &&
+//         data.length > 0 &&
+//         data.map((item, index) =>
+//           <Card 
+//           title={item.title} 
+//           text={item.text}
+//           linkTitle={item.linkTitle}
+//           key={index}
+//           />
+//         )
+//       }
+//     </div>
+//   );
+// }

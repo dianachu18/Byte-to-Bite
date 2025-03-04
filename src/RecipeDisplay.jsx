@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./RecipeDisplayStyle.css";
+//import "./RecipeDisplayStyle.css";
 import { FaStar, FaRegStar, FaBookmark, FaRegBookmark } from "react-icons/fa";
 
 const recipe = {

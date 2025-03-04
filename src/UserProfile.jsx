@@ -1,4 +1,4 @@
-import "./UserProfile.css";
+//import "./UserProfile.css";
 
 export function UserProfile() {
   // Sample user data (Replace with actual user data from a database or API)

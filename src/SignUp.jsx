@@ -1,4 +1,4 @@
-import "./SignUp.css"
+//import "./SignUp.css"
 
 export function SignUp() {
     return (
