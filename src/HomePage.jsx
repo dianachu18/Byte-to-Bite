@@ -9,10 +9,34 @@ export function HomePage() {
 
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [first10, setFirst10] = useState([]);
+  const [displayData, setDisplayData] = useState([]);
 
-  const handleFilterChange = (filters) => {
-    setSelectedFilters(filters);
+  const handleFilterChange = (value, checked) => {
+    setSelectedFilters((prevFilters) =>
+      checked ? [...prevFilters, value] : prevFilters.filter((filter) => filter !== value)
+    );
+
   };
+
+  const handleDisplayData = () => {
+    const filteredRecipes = first10.filter((recipe) => {
+      return (
+        (selectedFilters.length === 0 || selectedFilters.every((diet) => recipe.diets.includes(diet)))
+      );
+    });
+
+    setDisplayData(filteredRecipes);
+  }
+
+  React.useEffect(() => {
+    handleDisplayData();
+  }, [selectedFilters]);
+
+  React.useEffect(() => {
+    setDisplayData(first10);
+    handleDisplayData();
+  }, [first10]);
+
   const handleSearchResults = (data) => {
     setFirst10(data);
   };
@@ -35,8 +59,8 @@ export function HomePage() {
         </span>
 
         <div className="recipe-wrapper">
-          <Filters onFilterChange={handleFilterChange} />
-          {first10.length > 0 && <CardList data={first10} />}
+          <Filters stateValue={selectedFilters} onFilterChange={handleFilterChange} />
+          {displayData.length > 0 && <CardList data={displayData} />}
           {/* <CardList /> */}
         </div>
       </div>
