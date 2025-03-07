@@ -1,6 +1,8 @@
 //import "./SignUp.css"
+import {addUser} from "./FetchFunctions.js"
 
 export function SignUp() {
+    addUser("matthew@gmail.com", "matthew", "matthew");
     return (
       <div className="signup-container">
         <form className="signup-form">

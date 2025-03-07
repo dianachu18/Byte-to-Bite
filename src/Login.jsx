@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./LoginStyle.css";
 
+import {login} from "./FetchFunctions.js"
+
 export function Login() {
   const [formData, setFormData] = useState({
     username: "",
@@ -15,6 +17,7 @@ export function Login() {
     e.preventDefault();
     console.log("Login attempt:", formData);
     // Handle authentication logic here
+    login(formData.username, formData.password);
   };
 
   return (
@@ -22,11 +25,11 @@ export function Login() {
       <form className="login-form" onSubmit={handleSubmit}>
         <h1>Sign In</h1>
         <div className="input-group">
-          <label>Email/Username</label>
+          <label>Email</label>
           <input
             type="text"
             name="username"
-            placeholder="Enter email or username"
+            placeholder="Enter email"
             value={formData.username}
             onChange={handleChange}
             required
