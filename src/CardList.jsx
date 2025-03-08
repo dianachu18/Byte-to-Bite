@@ -47,6 +47,7 @@ export function CardList({ data }) {
            title={item.title} 
            text={item.text}
            linkTitle={item.image}
+           recipe={item}
            key={index}
            />
          )

@@ -16,7 +16,7 @@ const InputTag = ({ onSearchResults }) => {
 
   // Method to delete tag from Array
   const handleDelete = (i) => {
-    let searchUrl = "http://localhost:5000/searchRecipes?ingredients=";
+    let searchUrl = "http://localhost:5001/searchRecipes?ingredients=";
 
     setTags(tags.filter((tag, index) => index !== i));
 
@@ -34,7 +34,7 @@ const InputTag = ({ onSearchResults }) => {
 
   // Method to add tag into Array
   const handleAddition = (tag) => {
-    let searchUrl = "http://localhost:5000/searchRecipes?ingredients=";
+    let searchUrl = "http://localhost:5001/searchRecipes?ingredients=";
 
     setTags([...tags, tag]);
 
