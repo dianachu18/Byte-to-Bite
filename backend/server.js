@@ -6,8 +6,6 @@ const Recipe = require("./models/recipe-model");
 const Profile = require("./models/profile-model"); 
 require('dotenv').config();
 
-const SPOONACULAR_API_KEY = process.env.SPOONACULAR_API_KEY;
-
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -18,65 +16,6 @@ mongoose.connect(process.env.MONGO_URI, {
     useUnifiedTopology: true
 }).then(() => console.log('MongoDB Connected'))
 .catch(err => console.log(err));
-
-// recipe search algorithm
-const findBestRecipes = async (userIngredients) => {
-    // Use RegExp object to convert into an array of case-insensitive regular expressions for better ingredient matching.
-    const regexIngredients = userIngredients.map(ingredient => new RegExp(ingredient, "i"));
-    
-    const recipes = await Recipe.aggregate([
-        {
-            // isolate Recipe object's ingredients to just their names
-            $addFields: {
-                ingredientNames: {
-                    $map: {
-                        input: "$ingredients",
-                        as: "ingredient",
-                        in: "$$ingredient.name" 
-                    }
-                }
-            }
-        },
-        // keep track of 2 scores: match and missing. Sort through who has best results
-        {
-            $addFields: {
-                match_count: {
-                    $size: {
-                        $filter: {
-                            input: "$ingredientNames",
-                            as: "ingredient",
-                            cond: {
-                                $in: [true, regexIngredients.map(regex => { 
-                                    return { $regexMatch: { input: "$$ingredient", regex: regex }} 
-                                })] 
-                            }
-                        }
-                    }
-                },
-                missing_count: {
-                    $subtract: [
-                        { $size: "$ingredientNames" },
-                        { $size: { $setIntersection: ["$ingredientNames", userIngredients] } }
-                    ]
-                }
-            }
-        },
-        {
-            // only include recipes with at least 1 matched ingredient
-            $match: {
-                match_count: { $gt: 0 }
-            }
-        },
-        {
-            $sort: { match_count: -1, missing_count: 1 }
-        },
-        {
-            $limit: 10 // limit array to 10 recipes
-        }
-    ]);
-
-    return recipes;
-};
 
 
 // Route to search for recipes based on ingredients
@@ -93,27 +32,7 @@ app.get("/searchRecipes", async (req, res) => {
     }
 });
 
-// route to get recipe information (for dietary restrictions and instructions)
-app.get("/getRecipeInformation/:recipeId", async (req, res) => {
-    try {
-        const response = await axios.get(
-            `https://api.spoonacular.com/recipes/${req.params.recipeId}/information`,
-            {
-                params: {
-                         includeNutrition: true,
-                         apiKey: SPOONACULAR_API_KEY
-                        }
-            }
-        );
-
-        res.json(response.data);
-    } catch (error) {
-        console.error('Error:', error.response ? error.response.data : error.message);
-        res.status(500).json({ error: "Failed to fetch recipe information" });
-    }
-    
-})
-
+// fetch recipe by id
 app.get('/recipes/:id', async (req, res) => {
   try 
   {
@@ -131,56 +50,38 @@ app.get('/recipes/:id', async (req, res) => {
   }
 });
 
-//route to save recipe
+// route to save custom recipes
 app.post("/saveRecipe", async (req, res) => {
-  const { id } = req.body;
+    try {
+        const recipeData = req.body;
+    
+        if (!recipeData.title) {
+            return res.status(400).json({ error: "Recipe title is required" });
+        }
 
-  if (!id) {
-      return res.status(400).json({ error: "Recipe ID is required" });
-  }
-
-  try {
-      const existingRecipe = await Recipe.findOne({ spoonacularId: id });
-      if (existingRecipe) {
+        const existingRecipe = await Recipe.findOne({ title: recipeData.title })
+        if (existingRecipe) {
           return res.status(200).json({ message: "Recipe already exists", recipe: existingRecipe });
-      }
+        }
 
-      const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/information`, {
-          params: { apiKey: process.env.SPOONACULAR_API_KEY }
-      });
+        const newRecipe = new Recipe({
+            title: recipeData.title,
+            image: recipeData.image || "",
+            ingredients: recipeData.ingredients.map(ing => ({
+                name: ing.name,
+                amount: ing.amount,
+                unit: ing.unit
+            })) || [],
+            diets: recipeData.diets || [],
+            instructions: recipeData.instructions || [],
+            reviews: []
+        });
 
-      const recipeData = response.data;
-
-      const newRecipe = new Recipe({
-          spoonacularId: recipeData.id,
-          title: recipeData.title,
-          image: recipeData.image,
-          ingredients: recipeData.extendedIngredients.map(ing => ({
-              name: ing.name,
-              amount: ing.amount,
-              unit: ing.unit
-          })),
-          likes: recipeData.aggregateLikes,
-
-          //store diet information
-          diets: recipeData.diets || [],
-
-          //store recipe instructions
-          instructions: recipeData.analyzedInstructions.length > 0
-              ? recipeData.analyzedInstructions[0].steps.map(step => step.step)
-              : ["No instructions available"],
-
-          //the front end will add reviews to this array
-          reviews: []
-      });
-
-      await newRecipe.save();
-      res.status(201).json({ message: "Recipe saved successfully", recipe: newRecipe });
-
-  } catch (error) {
-      console.error("Error fetching or saving recipe:", error.response ? error.response.data : error.message);
-      res.status(500).json({ error: "Failed to fetch or save recipe" });
-  }
+        await newRecipe.save();
+        res.status(201).json({ message: "Recipe saved successfully", recipe: newRecipe });
+    } catch (error) {
+        res.status(500).json({ error: "Failed to save recipe" });
+    }
 });
 
 //route to review a recipe
@@ -216,26 +117,6 @@ app.post("/recipes/:id/review", async (req, res) => {
   }
 });
 
-// route to delete recipes
-app.delete("/deleteRecipe/:spoonacularId", async (req, res) => {
-    try {
-        const id = Number(req.params.spoonacularId);
-        if (isNaN(id)) {
-            return res.status(400).json({ error: "Invalid spoonacularId " });
-        }
-
-        const deletedRecipe = await Recipe.findOneAndDelete({ spoonacularId: id });
-
-        if (!deletedRecipe) {
-            return res.status(400).json({ error: "Recipe not found" });
-        }
-
-        res.json({message: "Recipe deleted successfully", deletedRecipe });
-    } catch (err) {
-        console.error("Error deleting recipe:", err);
-        res.status(500).json({ error: "Failed to delete recipe" });
-    }
-});
 
 //create profile
 app.post('/register', async (req, res) => {
@@ -252,8 +133,6 @@ app.post('/register', async (req, res) => {
             return res.status(400).json({ error: "Email or username is already taken" });
         }
         
-
-
         const newProfile = new Profile({
             email,
             username,
@@ -267,6 +146,7 @@ app.post('/register', async (req, res) => {
         return res.status(500).json({ error: "Failed to register user" });
     }
 });
+
 
 app.get('/profiles/:id', async (req, res) => {
     try {
@@ -421,6 +301,65 @@ app.get('/getUserByUsername/:username', async (req, res) => {
       res.status(500).json({ error: 'Failed to fetch user ID' });
     }
   });
+
+// recipe search algorithm
+const findBestRecipes = async (userIngredients) => {
+    // Use RegExp object to convert into an array of case-insensitive regular expressions for better ingredient matching.
+    const regexIngredients = userIngredients.map(ingredient => new RegExp(ingredient, "i"));
+    
+    const recipes = await Recipe.aggregate([
+        {
+            // isolate Recipe object's ingredients to just their names
+            $addFields: {
+                ingredientNames: {
+                    $map: {
+                        input: "$ingredients",
+                        as: "ingredient",
+                        in: "$$ingredient.name" 
+                    }
+                }
+            }
+        },
+        // keep track of 2 scores: match and missing. Sort through who has best results
+        {
+            $addFields: {
+                match_count: {
+                    $size: {
+                        $filter: {
+                            input: "$ingredientNames",
+                            as: "ingredient",
+                            cond: {
+                                $in: [true, regexIngredients.map(regex => { 
+                                    return { $regexMatch: { input: "$$ingredient", regex: regex }} 
+                                })] 
+                            }
+                        }
+                    }
+                },
+                missing_count: {
+                    $subtract: [
+                        { $size: "$ingredientNames" },
+                        { $size: { $setIntersection: ["$ingredientNames", userIngredients] } }
+                    ]
+                }
+            }
+        },
+        {
+            // only include recipes with at least 1 matched ingredient
+            $match: {
+                match_count: { $gt: 0 }
+            }
+        },
+        {
+            $sort: { match_count: -1, missing_count: 1 }
+        },
+        {
+            $limit: 10 // limit array to 10 recipes
+        }
+    ]);
+
+    return recipes;
+};
 
 app.listen(5000, () => console.log('Server running on port 5000'));
 
