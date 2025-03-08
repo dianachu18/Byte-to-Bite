@@ -1,21 +1,62 @@
 //import "./SignUp.css"
+import { useState } from "react";
 import {addUser} from "./FetchFunctions.js"
 
 export function SignUp() {
-    addUser("matthew@gmail.com", "matthew", "matthew");
+    const [formData, setFormData] = useState({
+      email: "",
+      username: "",
+      password: "",
+    });
+  
+    const handleChange = (e) => {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+  
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      console.log("Signup attempt:", formData);
+      // Handle authentication logic here
+      addUser(formData.email, formData.username, formData.password);
+    };
+
     return (
       <div className="signup-container">
-        <form className="signup-form">
+        <form className="signup-form" onSubmit={handleSubmit}>
           <h1>Sign Up</h1>
-          <label>Email</label>
-          <input type="email" placeholder="Enter your email" required />
-  
-          <label>Username</label>
-          <input type="text" placeholder="Enter your username" required />
-  
-          <label>Password</label>
-          <input type="password" placeholder="Enter your password" required />
-  
+          <div className="input-group">
+            <label>Email</label>
+            <input 
+              type="email" 
+              name="email"
+              placeholder="Enter your email" 
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <label>Username</label>
+            <input 
+              type="text" 
+              name="username"
+              placeholder="Enter your username" 
+              value={formData.username}
+              onChange={handleChange}
+              required 
+            />
+          </div>
+          <div className="input-group">
+            <label>Password</label>
+            <input 
+              type="password" 
+              name="password"
+              placeholder="Enter your password" 
+              value={formData.password}
+              onChange={handleChange}
+              required 
+            />
+          </div>
           <button type="submit">Register</button>
         </form>
       </div>

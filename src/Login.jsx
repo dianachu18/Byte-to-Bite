@@ -5,7 +5,7 @@ import {login} from "./FetchFunctions.js"
 
 export function Login() {
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -17,7 +17,7 @@ export function Login() {
     e.preventDefault();
     console.log("Login attempt:", formData);
     // Handle authentication logic here
-    login(formData.username, formData.password);
+    login(formData.email, formData.password);
   };
 
   return (
@@ -28,9 +28,9 @@ export function Login() {
           <label>Email</label>
           <input
             type="text"
-            name="username"
+            name="email"
             placeholder="Enter email"
-            value={formData.username}
+            value={formData.email}
             onChange={handleChange}
             required
           />
