@@ -1,15 +1,27 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-export function Card({title, text, linkTitle}) {
+export function Card({title, text, linkTitle, recipe}) {
+
+  // const openRecipeInNewTab = () => {
+  //   const newWindow = window.open(`/recipe/${recipe._id}`, '_blank');
+  //   newWindow.history.pushState(null, '', `/recipe/${recipe._id}`);
+  //   newWindow.document.title = recipe.title;  // Optional: Set the title in the new window
+  // };
+
+  const openRecipeInNewTab = () => {
+    localStorage.setItem('recipeState', JSON.stringify(recipe));
+    window.open(`/recipe/${recipe._id}`, '_blank');
+};
 
   return (
     <>
       <div className="card">
         <div className="image">
-          <a href={linkTitle} className="link">
+
+          <div onClick={openRecipeInNewTab} className="link">
             <img src={linkTitle} alt={title}/>
-          </a>
-          {/* <img src="https://cdn-media-1.freecodecamp.org/images/1*y6C4nSvy2Woe0m7bWEn4BA.png" alt="React img" /> */}
+          </div>
           
         </div>
         <div className="info">
@@ -29,6 +41,7 @@ Card.propTypes = {
   title: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   linkTitle: PropTypes.string.isRequired,
+  recipe: PropTypes.any.isRequired,
 };
 
 
