@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 //import "./RecipeDisplayStyle.css";
 import { FaStar, FaRegStar, FaBookmark, FaRegBookmark } from "react-icons/fa";
@@ -17,14 +17,22 @@ import { FaStar, FaRegStar, FaBookmark, FaRegBookmark } from "react-icons/fa";
 
 export function RecipeDisplay() {
   const [bookmarked, setBookmarked] = useState(false);
-
-  const { id } = useParams();
-  const location = useLocation();
-  const [recipe, setRecipe] = useState(location.state?.recipe || null);
+  const [recipe, setRecipe] = useState(null);
 
   const toggleBookmark = () => {
     setBookmarked(!bookmarked);
   };
+
+  React.useEffect(() => {
+    const recipeData = JSON.parse(localStorage.getItem('recipeState'));
+    if (recipeData) {
+        setRecipe(recipeData);
+    }
+  }, []);
+
+  if (!recipe) {
+    return <div>Please give us a moment...</div>;
+  }
 
   return (
     <div className="recipe-container">
