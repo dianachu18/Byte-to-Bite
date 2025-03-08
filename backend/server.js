@@ -399,6 +399,28 @@ app.post('/profiles/:id/unsaveRecipe', async (req, res) => {
     }
 });
 
+app.get('/getUserByUsername/:username', async (req, res) => {
+    try {
+      const username = req.params.username;
+      
+      if (!username) {
+        return res.status(400).json({ error: "Username is required" });
+      }
+      
+      const user = await Profile.findOne({ username });
+      
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      
+      // Return just the user ID
+      res.json({ userId: user._id });
+    } 
+    catch (error) {
+      console.error('Error fetching user ID:', error);
+      res.status(500).json({ error: 'Failed to fetch user ID' });
+    }
+  });
 
 app.listen(5000, () => console.log('Server running on port 5000'));
 
