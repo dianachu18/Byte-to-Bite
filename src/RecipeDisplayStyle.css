@@ -10,10 +10,10 @@
   }
   
   .recipe-image {
-    margin-top: 450px;
-    margin-left: 450px;
-    width: 500px;
-    height: 500px;
+    margin-top: 30px;
+    margin-left: 500px;
+    width: 400px;
+    height: 400px;
     align-content: center;
     justify-content: center; 
     object-fit: cover;
@@ -27,10 +27,34 @@
     color: #F5F5DC;
   }
   
-  .recipe-rating .star {
+  .current-rating .star {
+    background: none;
+    border: none;
+    padding: 3px;
     color: #ffd700;
     font-size: 1.5rem;
-    margin: 0 3px;
+    position: relative;
+    top: 10px;
+  }
+
+  .recipe-rating .star {
+    background: none;
+    border: none;
+    padding: 3px;
+    color: #ffd700;
+    font-size: 1.5rem;
+    position: relative;
+    top: 10px;
+  }
+
+  .recipe-rating p {
+    font-size: 18px;
+    font-weight: bold;
+    position: relative;
+    top: 10px;
+    color: #F5F5DC;
+    margin-bottom: 20px;
+    text-align: center;
   }
   
   .recipe-ingredients, .recipe-instructions {
