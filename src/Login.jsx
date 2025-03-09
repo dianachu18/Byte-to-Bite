@@ -1,11 +1,10 @@
 import { useState } from "react";
+import { useGlobal } from "./GlobalContext";
 import "./LoginStyle.css";
 
 export function Login() {
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
+  const [formData, setFormData] = useState({ username: "", password: "" });
+  const { addUserInput } = useGlobal();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -13,7 +12,8 @@ export function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Login attempt:", formData);
+    console.log("Recent data:", formData);
+    addUserInput(formData);
     // Handle authentication logic here
   };
 
