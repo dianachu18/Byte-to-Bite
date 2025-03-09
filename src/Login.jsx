@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { useGlobal } from "./GlobalContext";
 import "./LoginStyle.css";
 
 import {login} from "./FetchFunctions.js"
 
 export function Login() {
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const { addUserInput } = useGlobal();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -14,8 +15,7 @@ export function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Recent data:", formData);
-    addUserInput(formData);
+    console.log("Login attempt:", formData);
     // Handle authentication logic here
     login(formData.email, formData.password);
   };

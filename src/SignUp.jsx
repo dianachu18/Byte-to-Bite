@@ -17,16 +17,9 @@ export function SignUp() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Record the user input using the global context
-    addUserInput(formData);
-    console.log("Recent data:", formData);
+    console.log("Signup attempt:", formData);
+    // Handle authentication logic here
     addUser(formData.email, formData.username, formData.password);
-    // Optionally clear the form after submission
-    setFormData({
-      email: "",
-      username: "",
-      password: ""
-    });
   };
 
   return (
