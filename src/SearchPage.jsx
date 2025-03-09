@@ -1,11 +1,10 @@
-// HomePage.jsx
 import React, { useState } from "react";
 import { CardList } from './CardList';
 import InputTag from './InputTag';
 import Filters from './Filters'; 
-import './HomePageStyle.css';
+import './SearchPageStyle.css';
 
-export function HomePage() {
+export function SearchPage() {
 
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [first10, setFirst10] = useState([]);

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./LoginStyle.css";
 
 import {login} from "./FetchFunctions.js"
@@ -9,6 +10,9 @@ export function Login() {
     password: "",
   });
 
+  // Create the navigate function
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -17,7 +21,15 @@ export function Login() {
     e.preventDefault();
     console.log("Login attempt:", formData);
     // Handle authentication logic here
-    login(formData.email, formData.password);
+    login(formData.email, formData.password)
+    .then((response) => {
+      // After a successful login, navigate to SearchPage
+      navigate("/SearchPage");
+    })
+    .catch((error) => {
+      console.error("Login failed:", error);
+      // Optionally, handle login errors here
+    });
   };
 
   return (
@@ -49,7 +61,7 @@ export function Login() {
         <button type="submit" className="login-button">Login</button>
         <span>-------------------------------------------------------</span>
         <p className="signup-message">
-          Not registered? <button className="signup-button">Sign Up</button>
+          Not registered? <button type="button" className="signup-button" onClick={() => navigate("/SignUp")}>Sign Up</button>
         </p>
       </form>
     </div>

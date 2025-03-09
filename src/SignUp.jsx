@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./SignUp.css";
 import {addUser} from "./FetchFunctions.js"
 import { useGlobal } from "./GlobalContext";
@@ -11,6 +12,8 @@ export function SignUp() {
     password: ""
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -19,7 +22,15 @@ export function SignUp() {
     e.preventDefault();
     console.log("Signup attempt:", formData);
     // Handle authentication logic here
-    addUser(formData.email, formData.username, formData.password);
+    addUser(formData.email, formData.username, formData.password)
+    .then(() => {
+      // Redirect to Login page after a successful signup
+      navigate("/");
+    })
+    .catch((error) => {
+      console.error("Signup error:", error);
+      // Optionally handle signup errors here
+    });
   };
 
   return (
