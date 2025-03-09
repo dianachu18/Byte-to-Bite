@@ -2,12 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const axios = require('axios'); 
+const multer = require('multer');
 const Recipe = require("./models/recipe-model");
 const Profile = require("./models/profile-model"); 
 require('dotenv').config();
 
 const app = express();
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
 app.use(cors());
 
 // Connect to database
@@ -17,7 +19,16 @@ mongoose.connect(process.env.MONGO_URI, {
 }).then(() => console.log('MongoDB Connected'))
 .catch(err => console.log(err));
 
-
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/'); //images will be stored
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + '-' + file.originalname); //unique filename
+    }
+  });
+  
+const upload = multer({ storage: storage }).single('image');
 // Route to search for recipes based on ingredients
 app.get("/searchRecipes", async (req, res) => {
     const ingredients = req.query.ingredients.split(",");
@@ -50,39 +61,52 @@ app.get('/recipes/:id', async (req, res) => {
   }
 });
 
-// route to save custom recipes
-app.post("/saveRecipe", async (req, res) => {
+//route to save custom recipes with image upload
+app.post("/saveRecipe", (req, res, next) => {
+    upload(req, res, function (err) {
+      if (err instanceof multer.MulterError) {
+        return res.status(400).json({ error: err.message });
+      } else if (err) {
+        return res.status(500).json({ error: "An unknown error occurred" });
+      }
+      next(); 
+    });
+  }, async (req, res) => {
     try {
-        const recipeData = req.body;
-    
-        if (!recipeData.title) {
-            return res.status(400).json({ error: "Recipe title is required" });
-        }
-
-        const existingRecipe = await Recipe.findOne({ title: recipeData.title })
-        if (existingRecipe) {
-          return res.status(200).json({ message: "Recipe already exists", recipe: existingRecipe });
-        }
-
-        const newRecipe = new Recipe({
-            title: recipeData.title,
-            image: recipeData.image || "",
-            ingredients: recipeData.ingredients.map(ing => ({
-                name: ing.name,
-                amount: ing.amount,
-                unit: ing.unit
-            })) || [],
-            diets: recipeData.diets || [],
-            instructions: recipeData.instructions || [],
-            reviews: []
-        });
-
-        await newRecipe.save();
-        res.status(201).json({ message: "Recipe saved successfully", recipe: newRecipe });
+      const recipeData = req.body;
+  
+      if (!recipeData.title) {
+        return res.status(400).json({ error: "Recipe title is required" });
+      }
+  
+      const existingRecipe = await Recipe.findOne({ title: recipeData.title });
+      if (existingRecipe) {
+        return res.status(200).json({ message: "Recipe already exists", recipe: existingRecipe });
+      }
+  
+      let imageUrl = "";
+      if (req.file) {
+        imageUrl = "http://localhost:5000/uploads/" + req.file.filename;
+      } else if (recipeData.image) {
+        imageUrl = recipeData.image; 
+      }
+  
+      const newRecipe = new Recipe({
+        title: recipeData.title,
+        image: imageUrl,
+        ingredients: recipeData.ingredients ? JSON.parse(recipeData.ingredients) : [],
+        diets: recipeData.diets ? JSON.parse(recipeData.diets) : [],
+        instructions: recipeData.instructions ? JSON.parse(recipeData.instructions) : [],
+        reviews: []
+      });
+  
+      await newRecipe.save();
+      res.status(201).json({ message: "Recipe saved successfully", recipe: newRecipe });
     } catch (error) {
-        res.status(500).json({ error: "Failed to save recipe" });
+      console.error("Error saving recipe:", error);
+      res.status(500).json({ error: "Failed to save recipe" });
     }
-});
+  });
 
 //route to review a recipe
 app.post("/recipes/:id/review", async (req, res) => {
