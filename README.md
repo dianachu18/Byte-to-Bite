@@ -35,9 +35,9 @@ Afterwards, to run the backend:
 
 ### Start the webpage
 
-Go back to the parent directory:
+In a separate terminal, go back to the parent directory:
 
-`cd ..`
+`cd Byte-to-Bite`
 
 Then, to run the frontend:
 
