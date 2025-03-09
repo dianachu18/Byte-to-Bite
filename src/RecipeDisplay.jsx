@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import "./RecipeDisplayStyle.css";
 import { FaStar, FaRegStar, FaBookmark, FaRegBookmark } from "react-icons/fa";
-
+import { save, unsave, review} from "./FetchFunctions.js"
 // const recipe = {
 //   image: "https://www.indianhealthyrecipes.com/wp-content/uploads/2023/05/red-sauce-pasta-recipe.jpg",
 //   name: "Delicious Pasta",
@@ -19,9 +19,19 @@ export function RecipeDisplay() {
   const [bookmarked, setBookmarked] = useState(false);
   const [recipe, setRecipe] = useState(null);
   const [rating, setRating] = useState(0);
+  const [userId, setUserId] = useState(null);
+
   let current_rating = 0;
 
   const toggleBookmark = () => {
+    if(!bookmarked && recipe) {
+      save(userId, recipe._id);
+      console.log(recipe._id);
+    }
+    else if (recipe) {
+      unsave(userId, recipe._id);
+    }
+
     setBookmarked(!bookmarked);
   };
 
@@ -43,6 +53,11 @@ export function RecipeDisplay() {
     const recipeData = JSON.parse(localStorage.getItem('recipeState'));
     if (recipeData) {
         setRecipe(recipeData);
+    }
+    const userId = localStorage.getItem("userId"); 
+    
+    if (userId) {
+        setUserId(userId);
     }
   }, []);
 

@@ -1,22 +1,27 @@
 //import "./UserProfile.css";
+import React, { useState, useEffect } from "react";
+import {getUser} from "./FetchFunctions.js"
 
 export function UserProfile() {
-  // Sample user data (Replace with actual user data from a database or API)
-  const user = {
-    username: "john_doe",
-    profilePic: "https://via.placeholder.com/150",
-    email: "john.doe@example.com",
-    savedRecipes: [
-      { id: 1, title: "Spaghetti Carbonara", image: "https://via.placeholder.com/100" },
-      { id: 2, title: "Chicken Alfredo", image: "https://via.placeholder.com/100" },
-      { id: 3, title: "Avocado Toast", image: "https://via.placeholder.com/100" }
-    ]
-  };
+  const [user, setUser] = useState(null);
 
+    useEffect(() => {
+        const userId = localStorage.getItem("userId"); 
+
+        if (userId) {
+            getUser(userId).then((data) => {
+                setUser(data);
+            });
+        }
+    }, []);
+
+  if (!user) {
+      return <p>Loading user data...</p>;
+  }
   return (
+    
     <div className="user-profile">
       <div className="profile-header">
-        <img src={user.profilePic} alt="Profile" className="profile-pic" />
         <h2>{user.username}</h2>
         <p>{user.email}</p>
       </div>
