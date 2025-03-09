@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./SignUp.css";
+import {addUser} from "./FetchFunctions.js"
 import { useGlobal } from "./GlobalContext";
 
 export function SignUp() {
@@ -19,6 +20,7 @@ export function SignUp() {
     // Record the user input using the global context
     addUserInput(formData);
     console.log("Recent data:", formData);
+    addUser(formData.email, formData.username, formData.password);
     // Optionally clear the form after submission
     setFormData({
       email: "",

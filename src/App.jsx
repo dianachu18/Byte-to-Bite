@@ -14,10 +14,13 @@ function App() {
       <Routes>
         <Route exact path="/" element={<HomePage />} />
         {/* <Route exact path="/MappedRecipe" element={<MappedRecipe />} /> */}
-        <Route exact path="/RecipeDisplay" element={<GlobalProvider> <RecipeDisplay /> </GlobalProvider>} />
+        {/* </Routes><Route exact path="/RecipeDisplay" element={<RecipeDisplay />} /> */}
         <Route exact path="/Login" element={<GlobalProvider> <Login /> </GlobalProvider>} />
-        <Route exact path="/SignUp" element={<GlobalProvider> <SignUp /></GlobalProvider>} />
+        <Route exact path="/SignUp" element={<GlobalProvider> <SignUp /> </GlobalProvider>} />
         <Route exact path="/UserProfile" element={<GlobalProvider> <UserProfile /> </GlobalProvider>} />
+
+        <Route path="/recipe/:id" element={<GlobalProvider> <RecipeDisplay /> </GlobalProvider>} />
+
       </Routes>
     </Router>
   );

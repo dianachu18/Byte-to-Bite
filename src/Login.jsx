@@ -2,8 +2,10 @@ import { useState } from "react";
 import { useGlobal } from "./GlobalContext";
 import "./LoginStyle.css";
 
+import {login} from "./FetchFunctions.js"
+
 export function Login() {
-  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const { addUserInput } = useGlobal();
 
   const handleChange = (e) => {
@@ -15,6 +17,7 @@ export function Login() {
     console.log("Recent data:", formData);
     addUserInput(formData);
     // Handle authentication logic here
+    login(formData.email, formData.password);
   };
 
   return (
@@ -22,12 +25,12 @@ export function Login() {
       <form className="login-form" onSubmit={handleSubmit}>
         <h1>Sign In</h1>
         <div className="input-group">
-          <label>Email/Username</label>
+          <label>Email</label>
           <input
             type="text"
-            name="username"
-            placeholder="Enter email or username"
-            value={formData.username}
+            name="email"
+            placeholder="Enter email"
+            value={formData.email}
             onChange={handleChange}
             required
           />

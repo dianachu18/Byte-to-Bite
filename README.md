@@ -32,3 +32,15 @@ Create a .env file in the backend folder. Inside, add your MongoDB URI as follow
 Afterwards, to run the backend:
 
 `node server.js`
+
+### Start the webpage
+
+Go back to the parent directory:
+
+`cd ..`
+
+Then, to run the frontend:
+
+`npx vite`
+
+Now you can view the webpage via the generated link.
