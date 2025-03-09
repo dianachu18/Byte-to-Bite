@@ -30,7 +30,15 @@ export async function addUser(email, username, password) {
     console.log("getUser");
     console.log(data);
     return data;
-};
+  };
+
+  export async function getRecipe(recipeId) {
+    const response = await fetch("http://localhost:5001/recipes/" + recipeId);
+    const data = await response.json();
+    console.log("getRecipe");
+    console.log(data);
+    return data;
+  };
 
   export async function save(userId, recipeId) {
     const response = await fetch("http://localhost:5001/profiles/" + userId + "/savedrecipes", {

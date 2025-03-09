@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import "./RecipeDisplayStyle.css";
 import { FaStar, FaRegStar, FaBookmark, FaRegBookmark } from "react-icons/fa";
-import { save, unsave, review} from "./FetchFunctions.js"
+import { save, unsave, review, getRecipe } from "./FetchFunctions.js"
 // const recipe = {
 //   image: "https://www.indianhealthyrecipes.com/wp-content/uploads/2023/05/red-sauce-pasta-recipe.jpg",
 //   name: "Delicious Pasta",
@@ -20,8 +20,7 @@ export function RecipeDisplay() {
   const [recipe, setRecipe] = useState(null);
   const [rating, setRating] = useState(0);
   const [userId, setUserId] = useState(null);
-
-  let current_rating = 0;
+  const [current_rating, setCurrentRating] = useState(0);
 
   const toggleBookmark = () => {
     if(!bookmarked && recipe) {
@@ -35,24 +34,30 @@ export function RecipeDisplay() {
     setBookmarked(!bookmarked);
   };
 
-  const handleStarClick = (index) => {
+  const handleStarClick = async (index) => {
     setRating(index + 1);
+    await review(recipe._id, userId, index + 1);
+    updateRecipe(recipe);
   };
 
-  const computeCurrentRating = () => {
-    let sum = 0;
+  const computeCurrentRating = (recipe) => {
     if (recipe && recipe.reviews && recipe.reviews.length > 0) {
+      let sum = 0;
       for (let i = 0; i < recipe.reviews.length; i++) {
         sum += recipe.reviews[i].rating;
       }
-      current_rating = Math.round(sum / recipe.reviews.length);
+      setCurrentRating(Math.round(sum / recipe.reviews.length));
     }
   }
+
+  const updateRecipe = async (recipe) => {
+    setRecipe(await getRecipe(recipe._id));
+  };
 
   React.useEffect(() => {
     const recipeData = JSON.parse(localStorage.getItem('recipeState'));
     if (recipeData) {
-        setRecipe(recipeData);
+        updateRecipe(recipeData);
     }
     const userId = localStorage.getItem("userId"); 
     
@@ -61,7 +66,9 @@ export function RecipeDisplay() {
     }
   }, []);
 
-  computeCurrentRating();
+  React.useEffect(() => {
+    computeCurrentRating(recipe);
+}, [recipe]); 
 
   if (!recipe) {
     return <div>Please give us a moment...</div>;

@@ -1,6 +1,6 @@
 //import "./UserProfile.css";
 import React, { useState, useEffect } from "react";
-import {getUser} from "./FetchFunctions.js"
+import {getUser, getRecipe} from "./FetchFunctions.js"
 
 export function UserProfile() {
   const [user, setUser] = useState(null);
@@ -18,6 +18,12 @@ export function UserProfile() {
   if (!user) {
       return <p>Loading user data...</p>;
   }
+
+  const openRecipeInNewTab = async (recipeId) => {
+    const recipe = await getRecipe(recipeId);
+    localStorage.setItem('recipeState', JSON.stringify(recipe));
+    window.open(`/recipe/${recipe._id}`, '_blank');
+};
   return (
     
     <div className="user-profile">
@@ -30,8 +36,8 @@ export function UserProfile() {
         <h3>Saved Recipes</h3>
         <ul>
           {user.savedRecipes.map(recipe => (
-            <li key={recipe.id} className="recipe-item">
-              <img src={recipe.image} alt={recipe.title} className="recipe-img" />
+              <li key={recipe._id} className="recipe-item" onClick={() => openRecipeInNewTab(recipe._id)}>
+              {/* <img src={recipe.image} alt={recipe.title} className="recipe-img" /> */}
               <span>{recipe.title}</span>
             </li>
           ))}
