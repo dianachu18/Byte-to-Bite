@@ -24,7 +24,7 @@ export function Login() {
     login(formData.email, formData.password)
     .then((response) => {
       // After a successful login, navigate to SearchPage
-      navigate("/SearchPage");
+        navigate("/SearchPage");
     })
     .catch((error) => {
       console.error("Login failed:", error);

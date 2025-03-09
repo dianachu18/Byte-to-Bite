@@ -2,10 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./SignUp.css";
 import {addUser} from "./FetchFunctions.js"
-import { useGlobal } from "./GlobalContext";
 
 export function SignUp() {
-  const { addUserInput } = useGlobal();
   const [formData, setFormData] = useState({
     email: "",
     username: "",
@@ -23,9 +21,9 @@ export function SignUp() {
     console.log("Signup attempt:", formData);
     // Handle authentication logic here
     addUser(formData.email, formData.username, formData.password)
-    .then(() => {
+    .then((response) => {
       // Redirect to Login page after a successful signup
-      navigate("/");
+        navigate("/");
     })
     .catch((error) => {
       console.error("Signup error:", error);
