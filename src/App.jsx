@@ -6,20 +6,19 @@ import { Login }  from './Login';
 import { SignUp } from './SignUp';
 import { UserProfile } from './UserProfile'
 import { SearchPage } from './SearchPage';
-import { GlobalProvider } from "./GlobalContext";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={<GlobalProvider> <Login /> </GlobalProvider>} />
-        <Route exact path="/SignUp" element={<GlobalProvider> <SignUp /> </GlobalProvider>} />
-        <Route exact path="/SearchPage" element={<GlobalProvider> <SearchPage /> </GlobalProvider>} />
+        <Route exact path="/" element={<Login />} />
+        <Route exact path="/SignUp" element={ <SignUp /> } />
+        <Route exact path="/SearchPage" element={ <SearchPage />}  />
         {/* <Route exact path="/MappedRecipe" element={<MappedRecipe />} /> */}
         {/* </Routes><Route exact path="/RecipeDisplay" element={<RecipeDisplay />} /> */}
-        <Route exact path="/UserProfile" element={<GlobalProvider> <UserProfile /> </GlobalProvider>} />
+        <Route exact path="/UserProfile" element={ <UserProfile /> } />
 
-        <Route path="/recipe/:id" element={<GlobalProvider> <RecipeDisplay /> </GlobalProvider>} />
+        <Route path="/recipe/:id" element={ <RecipeDisplay /> } />
 
       </Routes>
     </Router>
