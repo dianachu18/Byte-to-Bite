@@ -23,6 +23,7 @@ export function RecipeDisplay() {
   const [rating, setRating] = useState(0);
   const [userId, setUserId] = useState(null);
   const [current_rating, setCurrentRating] = useState(0);
+  const [email, setEmail] = useState("");
 
   const toggleBookmark = () => {
     if(!bookmarked && recipe) {
@@ -40,6 +41,19 @@ export function RecipeDisplay() {
     setRating(index + 1);
     await review(recipe._id, userId, index + 1);
     updateRecipe(recipe);
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handleSubmit = () => {
+    if (email) {
+      alert(`Email shared: ${email}`);
+      // ADD EMAIL SHARING STUFF HERE
+    } else {
+      alert('Please enter a valid email address.');
+    }
   };
 
   const computeCurrentRating = (recipe) => {
@@ -121,6 +135,17 @@ export function RecipeDisplay() {
             ))}
           <p className="current_rating">{rating} of 5</p>
         </div>
+      <div className="share-recipe">
+        <p>Loved the recipe? Share it with your friends, enter email below: </p>
+        <input
+          type="email"
+          value={email}
+          onChange={handleEmailChange}
+          placeholder="Please enter the email address of the recipient"
+        />
+      <button onClick={handleSubmit}>Share</button>
+      </div>
+      
 
     </div>
     </>

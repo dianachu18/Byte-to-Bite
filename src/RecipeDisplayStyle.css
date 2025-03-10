@@ -104,3 +104,37 @@
     text-align: left;
   }
   
+  .share-recipe  {
+    font-size: 18px;
+    font-weight: bold;
+    position: relative;
+    top: 10px;
+    color: #F5F5DC;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+.share-recipe input {
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px #F5F5DC;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 100%;
+  max-width: 400px; 
+  box-sizing: border-box;
+}
+
+.share-recipe button {
+  padding: 10px 20px;
+  border: none;
+  background-color: grey;
+  color: black;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.share-recipe button:hover {
+  background-color: #F5F5DC;
+}
