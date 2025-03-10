@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./RecipeDisplayStyle.css";
 import { FaStar, FaRegStar, FaBookmark, FaRegBookmark } from "react-icons/fa";
-import { save, unsave, review, getRecipe } from "./FetchFunctions.js"
+import { save, unsave, review, getRecipe } from "./FetchFunctions.js";
+import userIcon from "/src/assets/icons8-user-50.png";
 // const recipe = {
 //   image: "https://www.indianhealthyrecipes.com/wp-content/uploads/2023/05/red-sauce-pasta-recipe.jpg",
 //   name: "Delicious Pasta",
@@ -77,7 +78,7 @@ export function RecipeDisplay() {
 
   return (
     <>
-    <button type="button" className="user-button" onClick={() => navigate("/UserProfile")}> <img src= "./src/assets/icons8-user-50.png" /></button>
+    <button type="button" className="user-button" onClick={() => navigate("/UserProfile")}> <img src= {userIcon} /></button>
     <div className="recipe-container">
       <h2 className="recipe-name">{recipe.title}</h2>
       <img src={recipe.image} alt={recipe.title} className="recipe-image" />
