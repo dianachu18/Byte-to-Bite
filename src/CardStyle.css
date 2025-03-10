@@ -1,0 +1,42 @@
+.card {
+    background-color: #333;
+    border-radius: 8px;
+    overflow: hidden; /* Ensures the image stays within the card boundaries */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: white;
+  }
+  
+  .image {
+    width: 100%; /* Ensure the image container takes the full width of the card */
+    height: 200px; /* Fixed height for the image container */
+  }
+  
+  .image img {
+    width: 100%; /* Make the image fill the container */
+    height: 200px; /* Fixed height for the image */
+    object-fit: cover; /* Crops the image to fit while maintaining aspect ratio */
+    display: block; /* Removes any inline spacing issues */
+  }
+  
+  .info {
+    padding: 10px;
+  }
+  
+  .card-title {
+    margin: 0;
+    font-size: 14px; /* Adjust font size if needed */
+    white-space: nowrap; /* Prevents title from wrapping */
+    overflow: hidden; /* Hides overflow text */
+    text-overflow: ellipsis; /* Adds "..." for overflow */
+  }
+  
+  .card-desc {
+    margin: 5px 0 0;
+    font-size: 12px;
+  }
+  
+  .link {
+    cursor: pointer;
+    display: block; /* Ensures the link takes the full image area */
+  }

@@ -6,6 +6,8 @@ import { Login }  from './Login';
 import { SignUp } from './SignUp';
 import { UserProfile } from './UserProfile'
 import { SearchPage } from './SearchPage';
+import { RecipeCreation } from './RecipeCreation'; // Add this import
+
 
 function App() {
   return (
@@ -18,6 +20,7 @@ function App() {
         <Route exact path="/UserProfile" element={ <UserProfile /> } />
 
         <Route path="/recipe/:id" element={ <RecipeDisplay /> } />
+        <Route path="/recipe-creation" element={<RecipeCreation />} /> 
 
       </Routes>
     </Router>

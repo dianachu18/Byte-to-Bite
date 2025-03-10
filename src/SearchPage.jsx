@@ -12,6 +12,7 @@ export function SearchPage() {
   const [first10, setFirst10] = useState([]);
   const [displayData, setDisplayData] = useState([]);
 
+
   const handleFilterChange = (value, checked) => {
     setSelectedFilters((prevFilters) =>
       checked ? [...prevFilters, value] : prevFilters.filter((filter) => filter !== value)
@@ -59,8 +60,17 @@ export function SearchPage() {
           <Filters stateValue={selectedFilters} onFilterChange={handleFilterChange} />
           {displayData.length > 0 && <CardList data={displayData} />}
           {/* <CardList /> */}
+          
         </div>
+        <button 
+          className="create-recipe-btn" 
+          onClick={() => navigate("/recipe-creation")}
+        >
+          Create Recipe
+        </button>
+
       </div>
+      
     </>
   );
 }
