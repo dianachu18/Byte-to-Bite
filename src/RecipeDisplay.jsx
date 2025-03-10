@@ -95,13 +95,13 @@ export function RecipeDisplay() {
       <button className="bookmark-btn" onClick={toggleBookmark}>
           {bookmarked ? <FaBookmark /> : <FaRegBookmark />} Bookmark
         </button>
-      <h3>Ingredients:</h3>
+      <h3 className="rd-h3">Ingredients:</h3>
       <ul className="recipe-ingredients">
         {recipe.ingredients.map((ingredient, index) => (
           <li key={index}>{ingredient.name.charAt(0).toUpperCase() + ingredient.name.slice(1)}: {ingredient.amount} {ingredient.unit}</li>
         ))}
       </ul>
-      <h3>Instructions:</h3>
+      <h3 className="rd-h3">Instructions:</h3>
       <ol className="recipe-instructions">
         {recipe.instructions.map((step, index) => (
           <li key={index}>{step}</li>

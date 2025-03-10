@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./RecipeCreationStyle.css"; 
 
@@ -114,14 +114,15 @@ export function RecipeCreation() {
 
   return (
     <div className="recipe-creation-container">
-      <h2>Create a New Recipe</h2>
+      <h2 className="rc-header2">Create a New Recipe</h2>
       {error && <p className="error">{error}</p>}
       {success && <p className="success">{success}</p>}
       <form onSubmit={handleSubmit}>
         {/* Recipe Title */}
         <div className="form-group">
-          <label htmlFor="title">Recipe Title:</label>
+          <label className="rc-label" htmlFor="title">Recipe Title:</label>
           <input
+            className="rc-input"
             type="text"
             id="title"
             name="title"
@@ -133,10 +134,11 @@ export function RecipeCreation() {
 
         {/* Ingredients */}
         <div className="form-group">
-          <h3>Ingredients</h3>
+          <h3 className="rc-header3">Ingredients</h3>
           {formData.ingredients.map((ingredient, index) => (
             <div key={index} className="ingredient-row">
               <input
+                className="rc-input"
                 type="text"
                 placeholder="Name"
                 value={ingredient.name}
@@ -144,6 +146,7 @@ export function RecipeCreation() {
                 required
               />
               <input
+                className="rc-input"
                 type="number"
                 placeholder="Amount"
                 value={ingredient.amount}
@@ -151,6 +154,7 @@ export function RecipeCreation() {
                 required
               />
               <input
+                className="rc-input"
                 type="text"
                 placeholder="Unit (e.g., tsp, cup)"
                 value={ingredient.unit}
@@ -159,6 +163,7 @@ export function RecipeCreation() {
               />
               {formData.ingredients.length > 1 && (
                 <button
+                  className="rc-button"
                   type="button"
                   onClick={() => removeField(index, "ingredients")}
                 >
@@ -167,17 +172,18 @@ export function RecipeCreation() {
               )}
             </div>
           ))}
-          <button type="button" onClick={() => addField("ingredients")}>
+          <button type="button" className="rc-button" onClick={() => addField("ingredients")}>
             Add Ingredient
           </button>
         </div>
 
         {/* Instructions */}
         <div className="form-group">
-          <h3>Instructions</h3>
+          <h3 className="rc-header3">Instructions</h3>
           {formData.instructions.map((instruction, index) => (
             <div key={index} className="instruction-row">
               <textarea
+                className="rc-textarea"
                 placeholder={`Step ${index + 1}`}
                 value={instruction}
                 onChange={(e) => handleChange(e, index, null, "instructions")}
@@ -185,6 +191,7 @@ export function RecipeCreation() {
               />
               {formData.instructions.length > 1 && (
                 <button
+                  className="rc-button"
                   type="button"
                   onClick={() => removeField(index, "instructions")}
                 >
@@ -193,17 +200,18 @@ export function RecipeCreation() {
               )}
             </div>
           ))}
-          <button type="button" onClick={() => addField("instructions")}>
+          <button className="rc-button" type="button" onClick={() => addField("instructions")}>
             Add Instruction
           </button>
         </div>
 
         {/* Diets */}
         <div className="form-group">
-          <h3>Diets (Optional)</h3>
+          <h3 className="rc-header3">Diets (Optional)</h3>
           {formData.diets.map((diet, index) => (
             <div key={index} className="diet-row">
               <input
+                className="rc-input"
                 type="text"
                 placeholder="e.g., Vegan, Gluten-Free"
                 value={diet}
@@ -212,6 +220,7 @@ export function RecipeCreation() {
               {formData.diets.length > 1 && (
                 <button
                   type="button"
+                  className="rc-button"
                   onClick={() => removeField(index, "diets")}
                 >
                   Remove
@@ -219,14 +228,14 @@ export function RecipeCreation() {
               )}
             </div>
           ))}
-          <button type="button" onClick={() => addField("diets")}>
+          <button className="rc-button" type="button" onClick={() => addField("diets")}>
             Add Diet
           </button>
         </div>
 
         {/* Image Upload */}
         <div className="form-group">
-          <label htmlFor="image">Recipe Image:</label>
+          <label className="rc-image" htmlFor="image">Recipe Image:</label>
           <input
             type="file"
             id="image"
