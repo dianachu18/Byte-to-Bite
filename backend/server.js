@@ -5,6 +5,7 @@ const axios = require('axios');
 const Recipe = require("./models/recipe-model");
 const Profile = require("./models/profile-model"); 
 require('dotenv').config();
+const nodemailer = require("nodemailer");
 
 const app = express();
 app.use(express.json());
@@ -17,6 +18,16 @@ mongoose.connect(process.env.MONGO_URI, {
 }).then(() => console.log('MongoDB Connected'))
 .catch(err => console.log(err));
 
+// Nodemailer Transporter for sharing via email
+const transporter = nodemailer.createTransport({
+    host: "live.smtp.mailtrap.io",
+    port: 587,
+    secure: false,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
 
 // Route to search for recipes based on ingredients
 app.get("/searchRecipes", async (req, res) => {
@@ -225,7 +236,7 @@ app.post('/profiles/:id/savedRecipes', async (req, res) => {
     }
   });
 
-  // remove or unbookmark a user's saved recipe.
+// remove or unbookmark a user's saved recipe.
 app.post('/profiles/:id/unsaveRecipe', async (req, res) => {
     try {
         const userId = req.params.id;
@@ -255,7 +266,8 @@ app.post('/profiles/:id/unsaveRecipe', async (req, res) => {
     }
 });
 
-  app.post('/login', async (req, res) => {
+// Route to login
+app.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -279,6 +291,40 @@ app.post('/profiles/:id/unsaveRecipe', async (req, res) => {
     }
 });
 
+
+// Route to send a recipe via email
+app.post("/shareRecipe", async (req, res) => {
+    const { recipientEmail, recipeId } = req.body;
+
+    try {
+        const recipe = await Recipe.findById(recipeId);
+        if (!recipe) {
+            return res.status(404).json({ error: "Recipe not found" });
+        }
+
+        // Email content
+        const mailOptions = {
+            from: process.env.EMAIL_USERNAME,
+            to: recipientEmail,
+            subject: `Check out this recipe: ${recipe.title}`,
+            html: `
+                <h2>${recipe.title}</h2>
+                <img src="${recipe.image}" alt="${recipe.title}" style="width: 100%; max-width: 300px;">
+                <h3>Ingredients:</h3>
+                <ul>${recipe.ingredients.map(ing => `<li>${ing.amount} ${ing.unit} - ${ing.name}</li>`).join('')}</ul>
+                <h3>Instructions:</h3>
+                <p>${recipe.instructions.join("<br>")}</p>
+                <p>Enjoy!</p>
+            `
+        };
+
+        await transporter.sendMail(mailOptions);
+        res.json({ message: "Email sent successfully" });
+    } catch (error) {
+        console.error("Error sending recipe email:", error);
+        res.status(500).json({ error: "Failed to send recipe" });
+    }
+});
 
 // recipe search algorithm
 const findBestRecipes = async (userIngredients) => {
