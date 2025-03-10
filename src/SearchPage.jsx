@@ -64,7 +64,7 @@ export function SearchPage() {
         </div>
         <button 
           className="create-recipe-btn" 
-          onClick={() => navigate("/recipe-creation")}
+          onClick={() => navigate("/RecipeCreation")}
         >
           Create Recipe
         </button>

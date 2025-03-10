@@ -20,7 +20,7 @@ function App() {
         <Route exact path="/UserProfile" element={ <UserProfile /> } />
 
         <Route path="/recipe/:id" element={ <RecipeDisplay /> } />
-        <Route path="/recipe-creation" element={<RecipeCreation />} /> 
+        <Route path="/RecipeCreation" element={<RecipeCreation />} /> 
 
       </Routes>
     </Router>
