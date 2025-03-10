@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./RecipeDisplayStyle.css";
 import { FaStar, FaRegStar, FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { save, unsave, review, getRecipe } from "./FetchFunctions.js"
@@ -16,6 +16,7 @@ import { save, unsave, review, getRecipe } from "./FetchFunctions.js"
 // };
 
 export function RecipeDisplay() {
+  const navigate = useNavigate();
   const [bookmarked, setBookmarked] = useState(false);
   const [recipe, setRecipe] = useState(null);
   const [rating, setRating] = useState(0);
@@ -75,6 +76,8 @@ export function RecipeDisplay() {
   }
 
   return (
+    <>
+    <button type="button" className="user-button" onClick={() => navigate("/UserProfile")}> <img src= "./src/assets/icons8-user-50.png" /></button>
     <div className="recipe-container">
       <h2 className="recipe-name">{recipe.title}</h2>
       <img src={recipe.image} alt={recipe.title} className="recipe-image" />
@@ -119,6 +122,7 @@ export function RecipeDisplay() {
         </div>
 
     </div>
+    </>
   );
 }
 

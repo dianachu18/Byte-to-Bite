@@ -14,7 +14,6 @@ function App() {
         <Route exact path="/" element={<Login />} />
         <Route exact path="/SignUp" element={ <SignUp /> } />
         <Route exact path="/SearchPage" element={ <SearchPage />}  />
-        {/* <Route exact path="/MappedRecipe" element={<MappedRecipe />} /> */}
         {/* </Routes><Route exact path="/RecipeDisplay" element={<RecipeDisplay />} /> */}
         <Route exact path="/UserProfile" element={ <UserProfile /> } />
 

@@ -33,38 +33,43 @@ export function Login() {
   };
 
   return (
-    <div className="login-container">
-      <form className="login-form" onSubmit={handleSubmit}>
-        <h1>Sign In</h1>
-        <div className="input-group">
-          <label>Email</label>
-          <input
-            type="text"
-            name="email"
-            placeholder="Enter email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="input-group">
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            placeholder="Enter password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit" className="login-button">Login</button>
-        <span>-------------------------------------------------------</span>
-        <p className="signup-message">
-          Not registered? <button type="button" className="signup-button" onClick={() => navigate("/SignUp")}>Sign Up</button>
-        </p>
-      </form>
+    <>
+    <div className="login-body">
+      <h1 className="btb-logo">Byte-to-Bite</h1>
+      <div className="login-container">
+        <form className="login-form" onSubmit={handleSubmit}>
+          <h1>Sign In</h1>
+          <div className="input-group">
+            <label>Email</label>
+            <input
+              type="text"
+              name="email"
+              placeholder="Enter email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <label>Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <button type="submit" className="login-button">Login</button>
+          <span className="login-span">-------------------------------------------------------</span>
+          <p className="signup-message">
+            Not registered? <button type="button" className="signup-button" onClick={() => navigate("/SignUp")}>Sign Up</button>
+          </p>
+        </form>
+      </div>
     </div>
+  </>
   );
 };
 

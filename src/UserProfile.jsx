@@ -1,4 +1,4 @@
-//import "./UserProfile.css";
+import "./UserProfile.css";
 import React, { useState, useEffect } from "react";
 import {getUser, getRecipe} from "./FetchFunctions.js"
 
