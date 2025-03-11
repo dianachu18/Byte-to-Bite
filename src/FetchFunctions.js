@@ -72,3 +72,14 @@ export async function addUser(email, username, password) {
     console.log("review");
     console.log(data);
   };
+
+  export async function share(recipientEmail, recipeId) {
+    const response = await fetch("http://localhost:5001/shareRecipe", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({recipientEmail: recipientEmail, recipeId: recipeId}),
+    });
+    const data = await response.json();
+    console.log("share");
+    console.log(data);
+  }
