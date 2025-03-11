@@ -83,3 +83,8 @@ export async function addUser(email, username, password) {
     console.log("share");
     console.log(data);
   }
+
+  export async function getUsernameById(userId) {
+    const user = await getUser(userId);
+    return user.username;
+}
