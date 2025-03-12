@@ -18,9 +18,7 @@ Alternatively, download zip directly through GitHub and extract it locally.
 
 ### Enter the directory
 
-`cd Byte-to-Bite`
-`cd backend`
-
+`cd Byte-to-Bite/backend`
 ### Install the dependencies
 
 `npm i` or `npm install`
@@ -47,7 +45,9 @@ In a separate terminal, go back to the parent directory:
 
 `cd Byte-to-Bite`
 
-`npm install`
+Install the dependencies
+
+`npm i` or `npm install`
 
 Then, to run the frontend:
 
