@@ -19,6 +19,7 @@ Alternatively, download zip directly through GitHub and extract it locally.
 ### Enter the directory
 
 `cd Byte-to-Bite`
+`cd backend`
 
 ### Install the dependencies
 
@@ -26,8 +27,6 @@ Alternatively, download zip directly through GitHub and extract it locally.
 
 
 ### Start the Node.js server
-
-`cd backend`
 
 Create a .env file in the backend folder. Inside, add your MongoDB URI and Email details as follows:
 
