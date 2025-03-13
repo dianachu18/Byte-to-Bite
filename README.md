@@ -2,7 +2,7 @@
 
 
 ## Overview
-text text text
+Don't know what to cook? Byte to Bite is a recipe-matching app where users can input ingredients they have at hand and receive recipes that best match their pantry. 
 
 ## Features
 text text text 
@@ -57,5 +57,5 @@ Now you can view the webpage via the generated link.
 
 ## Authors
 
-text text text Andrea Asprer, Benjamin Avalos, Diana Chu, Matthew Lee, Tanisha Aggarwal 35L text text text 
+Andrea Asprer, Benjamin Avalos, Diana Chu, Matthew Lee, Tanisha Aggarwal
 
