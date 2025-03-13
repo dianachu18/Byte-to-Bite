@@ -5,7 +5,13 @@
 Don't know what to cook? Byte to Bite is a recipe-matching app where users can input ingredients they have at hand and receive recipes that best match their pantry. 
 
 ## Features
-text text text 
+   1. User accounts with ability to signup, login, and have information associated with a user
+   2. Meaningfully search and filter through recipes after inputting a list of ingredients
+   3. Abililty to bookmark recipes that you will easily be able to access from your profile page
+   4. Leave reviews on any recipe with a rating of 1-5, as well as an optional comment to accompany it
+   5. Users are able to create and upload their own recipes, with any amount of ingredients, diets, and instructions, including an image.
+   6. Share recipes through email
+      
 ## Running the App
 
 Perform the following actions on your terminal:
