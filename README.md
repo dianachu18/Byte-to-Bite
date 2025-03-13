@@ -1,5 +1,6 @@
 # Byte-to-Bite
 
+![logo ](https://i.imgur.com/yAe0Lbq.jpeg)
 
 ## Overview
 Don't know what to cook? Byte to Bite is a recipe-matching app where users can input ingredients they have at hand and receive recipes that best match their pantry. 
@@ -35,7 +36,7 @@ Alternatively, download zip directly through GitHub and extract it locally.
 Create a .env file in the backend folder. Inside, add your MongoDB URI and Email details as follows:
 
    ```ini
-   MONGO_URI=mongodb+srv://cs35l:nebneb123@byte-to-bites.0cxe3.mongodb.net/?retryWrites=true&w=majority&appName=byte-to-bites
+   MONGO_URI="YOUR_MONGO_URI_HERE"
    EMAIL_USER="YOUR_EMAIL_USER_HERE"
    EMAIL_USERNAME="YOUR_EMAIL_USERNAME_HERE"
    EMAIL_PASS="YOUR_EMAIL_PASSWORD_HERE"
