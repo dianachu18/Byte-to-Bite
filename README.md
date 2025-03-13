@@ -1,6 +1,8 @@
 # Byte-to-Bite
 
-![logo ](https://i.imgur.com/yAe0Lbq.jpeg)
+<p align="center">
+  <img src="https://i.imgur.com/yAe0Lbq.jpeg" alt="Alt text" width="300">
+</p>
 
 ## Overview
 Don't know what to cook? Byte to Bite is a recipe-matching app where users can input ingredients they have at hand and receive recipes that best match their pantry. 
