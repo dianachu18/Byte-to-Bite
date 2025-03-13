@@ -184,7 +184,7 @@ export function RecipeCreation() {
             <div key={index} className="instruction-row">
               <textarea
                 className="rc-textarea"
-                placeholder={`Step ${index + 1}`}
+                // placeholder={`Step ${index + 1}`}
                 value={instruction}
                 onChange={(e) => handleChange(e, index, null, "instructions")}
                 required
